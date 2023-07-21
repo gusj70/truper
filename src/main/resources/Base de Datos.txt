@@ -1,0 +1,31 @@
+CREATE TABLE IF NOT EXISTS persona
+(
+sucursal_id INT NOT NULL,
+nombre VARCHAR(50) NOT NULL,
+PRIMARY KEY(sucursal_id)
+);
+
+CREATE TABLE IF NOT EXISTS ordenes
+(
+orden_id INT NOT NULL,
+sucursal_id INT NOT NULL,
+fecha DATE NOT NULL,
+total DECIMAL NOT NULL,
+FOREIGN KEY (sucursal_id) REFERENCES persona(sucursal_id) ON DELETE CASCADE ON UPDATE CASCADE,
+PRIMARY KEY(orden_id)
+);
+
+CREATE INDEX i_persona ON ordenes(sucursal_id);
+
+CREATE TABLE IF NOT EXISTS productos
+(
+producto_id INT NOT NULL,
+orden_id INT NOT NULL,
+codigo VARCHAR(20) NOT NULL,
+descripcion VARCHAR(200) NOT NULL,
+precio DECIMAL NOT NULL,
+FOREIGN KEY (orden_id) REFERENCES ordenes(orden_id) ON DELETE CASCADE ON UPDATE CASCADE,
+PRIMARY KEY(producto_id)
+);
+
+CREATE INDEX i_ordenes ON productos(orden_id);
